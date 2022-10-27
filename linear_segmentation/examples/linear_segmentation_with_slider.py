@@ -19,7 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from linear_segmentation import linear_segmentation
+from ..linear_segmentation import linear_segmentation
 
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
