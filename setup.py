@@ -15,6 +15,7 @@ setup(
     version='0.1',
     description='Automatic sparse sampling of 1-D array into linear segments minimizing error',
     long_description=read('README.md'),
+    long_description_content_type='text/markdown',
     author='Michael Anderson',
     author_email='manders9@jhu.edu',
     url='http://github.com/andermi/linear_segmentation',
