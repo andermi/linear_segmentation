@@ -1,8 +1,11 @@
 # linear_segmentation
 Automatic sparse sampling of 1-D array into linear segments minimizing error
 
-# Install
+# Install from clone
 `pip install .`
+
+# Install from PYPI
+`pip install linear_segmentation`
 
 # Example
 `python -m linear_segmentation.examples.linear_segmentation_with_slider.py`
