@@ -28,7 +28,7 @@ import scipy.interpolate as spint
 from tqdm import tqdm
 
 
-use_random_walk = False
+use_random_walk = True
 
 valstep = 0.0001
 valmin = 0.00001
