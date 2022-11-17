@@ -19,7 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..linear_segmentation import linear_segmentation
+from linear_segmentation import linear_segmentation, refinement
 
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
@@ -62,10 +62,11 @@ n_seg = []
 # The parametrized function to be plotted
 def f(tolerance):
     x, y = linear_segmentation(data_, tolerance)
+    x_ref, y_ref = refinement(data_, x)
     # f_interp = spint.interp1d(x, y)
     # x_new = np.linspace(x[0], x[-1], 10000)
     # y_new = f_interp(x_new)
-    return x, y
+    return x, y, x_ref, y_ref
 
 
 # Define initial parameters
@@ -73,8 +74,9 @@ init_tol = valmax / 2.0
 
 # Create the figure and the line that we will manipulate
 fig, ax = plt.subplots(2)
-x, y = f(init_tol)
+x, y, x_ref, y_ref = f(init_tol)
 line, = ax[1].plot(data_idx_[x], y, lw=2)
+line_ref, = ax[1].plot(data_idx_[x_ref], y_ref, 'g', lw=2)
 ax[1].set_xlabel('Time [s]')
 
 # adjust the main plot to make room for the sliders
@@ -94,7 +96,7 @@ tol_slider = Slider(
 for tol in tqdm(np.linspace(valmin,
                             valmax,
                             int(np.ceil((valmax - valmin) / valstep)))):
-    _, y= linear_segmentation(data_, tol)
+    _, y = linear_segmentation(data_, tol)
     n_seg.append(len(y) - 1)
 
 n_seg_x = np.linspace(valmin, valmax, len(n_seg))
@@ -109,9 +111,11 @@ seg_point, = ax[0].plot(init_tol,
 
 # The function to be called anytime a slider's value changes
 def update(val):
-    x, y = f(tol_slider.val)
+    x, y, x_ref, y_ref = f(tol_slider.val)
     line.set_xdata(data_idx_[x])
     line.set_ydata(y)
+    line_ref.set_xdata(data_idx_[x_ref])
+    line_ref.set_ydata(y_ref)
     seg_point.set_xdata(tol_slider.val)
     seg_point.set_ydata(n_seg_interp(tol_slider.val))
     fig.canvas.draw_idle()
