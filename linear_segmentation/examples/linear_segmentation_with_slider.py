@@ -76,7 +76,7 @@ init_tol = valmax / 2.0
 fig, ax = plt.subplots(2)
 x, y, x_ref, y_ref = f(init_tol)
 line, = ax[1].plot(data_idx_[x], y, lw=2)
-line_ref, = ax[1].plot(data_idx_[x_ref], y_ref, 'g', lw=2)
+line_ref, = ax[1].plot(data_idx_[x_ref], y_ref, 'r', lw=2)
 ax[1].set_xlabel('Time [s]')
 
 # adjust the main plot to make room for the sliders
@@ -127,4 +127,9 @@ tol_slider.on_changed(update)
 if use_random_walk:
     ax[1].plot(path)
 ax[1].plot(data_idx_, data_)
+if use_random_walk:
+    ax[1].legend(['linear_segmentation', 'refined', 'original', 'smoothed_original'])
+else:
+    ax[1].legend(['linear_segmentation', 'refined', 'original'])
 plt.show()
+

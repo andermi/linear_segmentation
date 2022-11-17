@@ -12,7 +12,7 @@ def read(fname):
 
 setup(
     name='linear_segmentation',
-    version='0.1',
+    version='0.2',
     description='Automatic sparse sampling of 1-D array into linear segments minimizing error',
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
