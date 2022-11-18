@@ -44,13 +44,27 @@ def refinement(data, idx):
 
     x_ref = [0.]
     y_ref = [coeffs[0][0]]
+    do_correction = False
+    #prev_c = None
     for jdx, (c_a, c_b) in enumerate(zip(coeffs[:-1], coeffs[1:])):
-        m_a, b_a = c_a[1], c_a[0]
-        m_b, b_b = c_b[1], c_b[0]
-        x_ref.append(((b_a - b_b) / (m_b - m_a))[0])
+        # if do_correction and prev_c is not None:
+        #     b_a, m_a = prev_c
+        #     do_correction = False
+        #     prev_c = None
+        # else:
+        b_a, m_a = c_a
+        b_b, m_b = c_b
+        x_candidate = ((b_a - b_b) / (m_b - m_a))[0]
+        if x_candidate <= x_ref[-1]:
+            do_correction = True
+            # prev_c = (b_a, m_a)
+            # continue
+        x_ref.append(x_candidate)
         y_ref.append((m_a*x_ref[-1] + b_a)[0])
     x_ref.append(idx[-1])
     y_ref.append((coeffs[-1][1]*idx[-1] + coeffs[-1][0])[0])
+    if do_correction:
+        return refinement(data, np.sort(np.round(x_ref).astype(int)))
     return np.round(x_ref).astype(int), y_ref
 
 
